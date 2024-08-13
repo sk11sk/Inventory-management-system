@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Generate barcode if it's a new product or if it doesn't have one
         if (product.getBarcode() == null) {
-            String barcode = barcodeService.generateBarcode(productDTO.getName()); //+ product.getId()
+            String barcode = barcodeService.generateBarcode(product.getName()); //+ product.getId()
             product.setBarcode(barcode);
             product = productRepository.save(product);
         }
@@ -60,6 +60,14 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(this::convertToProductDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDTO generateParticularStockReport(String barcode) {
+
+        Product product = productRepository.findByBarcode(barcode).orElseThrow(() -> new RuntimeException("Product not found"));
+        ProductDTO productDTO = convertToProductDTO(product);
+        return productDTO;
     }
 
     private ProductDTO convertToProductDTO(Product product) {

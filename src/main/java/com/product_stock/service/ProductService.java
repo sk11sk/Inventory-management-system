@@ -8,4 +8,6 @@ public interface ProductService {
     ProductDTO createOrUpdateProduct(ProductDTO productDTO);
     ProductDTO addStock(String barcode, int additionalQuantity);
     List<ProductDTO> generateStockReport();
+
+    ProductDTO generateParticularStockReport(String barcode);
 }
